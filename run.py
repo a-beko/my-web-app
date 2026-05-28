@@ -1,17 +1,8 @@
-import os
-from flask import Flask
-from config.settings import Config
+from app import create_app
 
-app = Flask(__name__)
-app.config.from_object(Config)
-
-
-@app.route("/")
-def hello():
-    return "Hello from configured app!"
-
+app = create_app()
 
 if __name__ == "__main__":
-    debug_mode = app.config["DEBUG"]
-    port = app.config["PORT"]
-    app.run(debug=debug_mode, port=port)
+    port = app.config.get("PORT", 5000)
+    debug = app.config.get("DEBUG", False)
+    app.run(debug=debug, port=port, host="0.0.0.0")
